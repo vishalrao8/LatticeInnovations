@@ -8,15 +8,15 @@
     <string name="reg_hint_phone">Phone</string>
     <string name="reg_hint_password">Password</string>
     <string name="reg_signup">Sign up</string>
-    <string name="reg_syntax_password">Must contain one upper char, one lower char and a number (Length: 8–15)</string>
-    <string name="reg_syntax_name">Should be at least 4 characters</string>
-    <string name="reg_syntax_address">Should be at least 10 characters</string>
+    <string name="reg_syntax_password">Must be at least 8 to 15 characters long</string>
+    <string name="reg_syntax_name">Must be at least 4 characters long</string>
+    <string name="reg_syntax_address">Must be at least 10 characters long</string>
     <string name="reg_syntax_phone">With country code</string>
-    <string name="reg_error_name">Please enter a valid name</string>
-    <string name="reg_error_address">Please enter a valid address</string>
+    <string name="reg_error_name">At least 4 characters long</string>
+    <string name="reg_error_address">At least 10 characters long</string>
     <string name="reg_error_email">Please enter a valid email</string>
     <string name="reg_error_phone">Please enter a valid phone no.</string>
-    <string name="reg_error_password">Please choose a valid password</string>
+    <string name="reg_error_password">At least 1 upper case, 1 lower case and a number</string>
     <string name="reg_default_phone">+</string>
 
     <!-- UserDetailActivity -->

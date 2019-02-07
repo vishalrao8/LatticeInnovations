@@ -99,7 +99,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin_half"
         android:hint="@string/reg_hint_password"
-        app:counterEnabled="true"
         app:passwordToggleEnabled="true"
         app:helperText="@string/reg_syntax_password"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"

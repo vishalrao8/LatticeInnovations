@@ -159,15 +159,15 @@ public class RegistrationActivity extends AppCompatActivity {
      */
     private void observeUi() {
 
-        Observable<String> nameObservable = RxTextView.textChanges(name).skipInitialValue().map(CharSequence::toString);
+        Observable<Boolean> nameObservable = RxTextView.textChanges(name).skip(1).map(this::isValidName);
 
-        Observable<String> addressObservable = RxTextView.textChanges(address).skipInitialValue().map(CharSequence::toString);
+        Observable<Boolean> addressObservable = RxTextView.textChanges(address).skip(1).map(this::isValidAddress);
 
-        Observable<String> emailObservable = RxTextView.textChanges(email).skipInitialValue().map(CharSequence::toString);
+        Observable<Boolean> emailObservable = RxTextView.textChanges(email).skip(1).map(this::isValidEmail);
 
-        Observable<String> phoneObservable = RxTextView.textChanges(phone).skipInitialValue().map(CharSequence::toString);
+        Observable<Boolean> phoneObservable = RxTextView.textChanges(phone).skip(1).map(this::isValidPhone);
 
-        Observable<String> passwordObservable = RxTextView.textChanges(password).skipInitialValue().map(CharSequence::toString);
+        Observable<Boolean> passwordObservable = RxTextView.textChanges(password).skip(1).map(this::isValidPassword);
 
         /**
          * Combining all Observables into a single Observable.
@@ -176,7 +176,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 addressObservable,
                 emailObservable,
                 phoneObservable,
-                passwordObservable, this::isValidForm);
+                passwordObservable, (validName, validAddress, validEmail, validPhone, validPassword) ->
+                        validName && validAddress && validEmail && validPhone && validPassword);
 
         /**
          * Subscribing Observable to a disposable Observer.
@@ -201,48 +202,87 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     /**
-     * Method used to update Sign Up button.
-     * @param valid A boolean based upon the result coming from validation method.
+     * Method to check input name's validity and set error on invalid entry.
+     * @param charSequence Input by user.
+     * @return Boolean representing input validity.
      */
-    private void updateButton(Boolean valid) {
+    private Boolean isValidName(CharSequence charSequence) {
 
-        if (valid)
-            sign_up.setEnabled(true);
-
-    }
-
-    /**
-     * Validating input data from all EditTexts.
-     * @param s Name
-     * @param s2 Address
-     * @param s3 Email
-     * @param s4 Phone Number
-     * @param s5 Password
-     * @return A boolean based upon the result of validation function.
-     */
-    private Boolean isValidForm(String s, String s2, String s3, String s4, String s5) {
+        String s = charSequence.toString();
 
         boolean validName = !s.isEmpty() && s.length() >= 4;
         if (!validName)
             name.setError(getString(R.string.reg_error_name));
 
+        return validName;
+
+    }
+
+    /**
+     * Method to check input address' validity and set error on invalid entry.
+     * @param charSequence Input by user.
+     * @return Boolean representing input validity.
+     */
+    private Boolean isValidAddress(CharSequence charSequence) {
+
+        String s2 = charSequence.toString();
+
         boolean validAddress = !s2.isEmpty() && s2.length() >= 10;
         if (!validAddress)
             address.setError(getString(R.string.reg_error_address));
 
+        return validAddress;
+
+    }
+
+    /**
+     * Method to check input email's validity and set error on invalid entry.
+     * @param charSequence Input by user.
+     * @return Boolean representing input validity.
+     */
+    private Boolean isValidEmail(CharSequence charSequence) {
+
+        String s3 = charSequence.toString();
+
         boolean validEmail = !s3.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(s3).matches();
         if (!validEmail)
-            address.setError(getString(R.string.reg_error_email));
+            email.setError(getString(R.string.reg_error_email));
+
+        return validEmail;
+
+    }
+
+    /**
+     * Method to check input phone number's validity and set error on invalid entry.
+     * @param charSequence Input by user.
+     * @return Boolean representing input validity.
+     */
+    private Boolean isValidPhone(CharSequence charSequence) {
+
+        String s4 = charSequence.toString();
 
         boolean validPhone = !s4.isEmpty() && Patterns.PHONE.matcher(s4).matches() && s4.length() == 13;
         if (!validPhone)
             phone.setError(getString(R.string.reg_error_phone));
 
+        return validPhone;
+
+    }
+
+    /**
+     * Method to check input password's validity and set error on invalid entry.
+     * @param charSequence Input by user.
+     * @return Boolean representing input validity.
+     */
+    private Boolean isValidPassword(CharSequence charSequence) {
+
+        String s5 = charSequence.toString();
+
         boolean validPassword = !s5.isEmpty() && isValidPassword(s5);
         if (!validPassword)
             password.setError(getString(R.string.reg_error_password));
 
-        return validName && validAddress && validEmail && validPhone && validPassword;
+        return validPassword;
 
     }
 
@@ -261,6 +301,14 @@ public class RegistrationActivity extends AppCompatActivity {
 
         return matcher.matches();
 
+    }
+
+    /**
+     * Method used to update Sign Up button.
+     * @param valid A boolean based upon the result coming from validation method.
+     */
+    private void updateButton(Boolean valid) {
+        sign_up.setEnabled(valid);
     }
 
     /**
